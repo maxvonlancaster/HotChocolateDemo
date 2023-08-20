@@ -14,6 +14,12 @@ namespace HotChocolateDemo.Queries
             return demoContext.Books.FirstOrDefault(x => x.Id == id);
         }
 
+        public List<Book> GetBooks([Service] DemoContext demoContext, int[] ids)
+        {
+            return demoContext.Books.Where(x => ids.Contains(x.Id))
+                .ToList();
+        }
+
         public List<Author> GetAuthors([Service] DemoContext demoContext)
         {
             return demoContext.Authors.ToList();
