@@ -1,16 +1,23 @@
 ﻿using HotChocolateDemo.Entities;
+using HotChocolateDemo.Models;
 
 namespace HotChocolateDemo.Mutations
 {
     public class DemoMutations
     {
         public async Task<int> AddBook(
-            Book book,
+            BookInputType book,
             [Service] DemoContext demoContext)
         {
-            demoContext.Books.Add(book);
+            var entity = new Book()
+            {
+                Title = book.Title,
+                Description = book.Description,
+                AuthorId = book.AuthorId,
+            };
+            demoContext.Books.Add(entity);
             await demoContext.SaveChangesAsync();
-            return book.Id;
+            return entity.Id;
         }
 
         public async Task<int> AddAuthor(
@@ -21,5 +28,36 @@ namespace HotChocolateDemo.Mutations
             await demoContext.SaveChangesAsync();
             return author.Id;
         }
+
+        public async Task<bool> UploadFileAsync(UploadFileInput input)
+        {
+            var fileName = input.File.Name;
+            var fileSize = input.File.Length;
+
+            await using Stream stream = input.File.OpenReadStream();
+
+            // We can now work with standard stream functionality of .NET
+            // to handle the file.
+
+            return true;
+        }
+
+        public async Task<bool> UploadFileNewAsync(IFile file)
+        {
+            var fileName = file.Name;
+            var fileSize = file.Length;
+
+            await using Stream stream = file.OpenReadStream();
+
+            // We can now work with standard stream functionality of .NET
+            // to handle the file.
+
+            return true;
+        }
+    }
+
+    public sealed record UploadFileInput {
+        public IFile File { get; set; }
+        public int Id { get; set; }
     }
 }

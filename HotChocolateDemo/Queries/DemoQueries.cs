@@ -29,5 +29,12 @@ namespace HotChocolateDemo.Queries
         {
             return demoContext.Authors.FirstOrDefault(x => x.Id == id);
         }
+
+        public async Task<Book> GetBookViaLoader(
+            int id,
+            [Service] DataLoaders.BookDataLoader bookDataLoader)
+        {
+            return await bookDataLoader.LoadAsync(id);
+        }
     }
 }

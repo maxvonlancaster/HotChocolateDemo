@@ -1,4 +1,6 @@
-﻿using HotChocolateDemo.Entities;
+﻿using HotChocolateDemo.DataLoaders;
+using HotChocolateDemo.Entities;
+using HotChocolateDemo.Models;
 using HotChocolateDemo.Mutations;
 using HotChocolateDemo.Queries;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +17,9 @@ builder.Services.AddDbContext<DemoContext>(
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<DemoQueries>()
-    .AddMutationType<DemoMutations>();
+    .AddMutationType<DemoMutations>()
+    .AddDataLoader<BookDataLoader>()
+    .AddType<UploadType>(); 
 
 var app = builder.Build();
 

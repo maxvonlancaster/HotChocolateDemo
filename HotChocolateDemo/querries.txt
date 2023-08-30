@@ -1,0 +1,35 @@
+
+query {
+  books() {
+    title
+    description
+    author{
+      name
+    }
+  }
+}
+
+
+query bookViaLoader($id: Int!){
+  bookViaLoader(id: $id) {
+    title
+    description
+    author{
+      name
+    }
+  }
+}
+
+
+mutation AddBook($book: BookInputTypeInput!) {
+  addBook(book: $book) {
+  }
+}
+
+{
+  "book": {
+    "title": "book tt",
+    "description": "b dd",
+    "authorId": 2
+  }
+}
